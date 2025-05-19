@@ -6,7 +6,6 @@ import NotFound from "../pages/NotFound";
 import { FaChevronLeft, FaTrophy, FaCog } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-// Import all game components
 import TicTacToe from "../games/TicTacToe/TicTacToe";
 import Snake from "../games/Snake/Snake";
 import MemoryGame from "../games/MemoryGame/MemoryGame";
@@ -18,7 +17,6 @@ import QuizGame from "../games/QuizGame/QuizGame";
 import ConnectFour from "../games/ConnectFour/ConnectFour";
 import RockPaperScissors from "../games/RockPaperScissors/RockPaperScissors";
 
-// Game metadata
 const gameInfo = {
   "tic-tac-toe": { name: "Tic Tac Toe", color: "from-purple-500 to-pink-500" },
   "snake": { name: "Snake", color: "from-green-500 to-teal-500" },
@@ -32,7 +30,6 @@ const gameInfo = {
   "rock-paper-scissors": { name: "Rock Paper Scissors", color: "from-cyan-500 to-blue-500" }
 };
 
-// Map game IDs to their components
 const gameComponents = {
   "tic-tac-toe": TicTacToe,
   "snake": Snake,

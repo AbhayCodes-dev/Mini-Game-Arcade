@@ -9,7 +9,6 @@ const NotFound = () => {
   useEffect(() => {
     setIsLoaded(true);
     
-    // Generate random particles for background effect
     const newParticles = Array.from({ length: 20 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,

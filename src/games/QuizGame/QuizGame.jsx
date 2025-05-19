@@ -51,7 +51,6 @@ const QuizGame = ({ onGameEnd }) => {
     if (timerActive && timeLeft > 0) {
       timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
     } else if (timeLeft === 0 && timerActive) {
-      // Time's up - mark question as unanswered
       const newAnsweredQuestions = [...answeredQuestions];
       newAnsweredQuestions[currentQuestion] = { 
         selected: null, 
@@ -83,7 +82,6 @@ const QuizGame = ({ onGameEnd }) => {
       setScore(score + 1);
     }
     
-    // Record answer
     const newAnsweredQuestions = [...answeredQuestions];
     newAnsweredQuestions[currentQuestion] = { 
       selected: option,
@@ -102,7 +100,6 @@ const QuizGame = ({ onGameEnd }) => {
       setCurrentQuestion(currentQuestion + 1);
     } else {
       setShowScore(true);
-      // Only call onGameEnd if it exists
       if (typeof onGameEnd === 'function') {
         onGameEnd(score);
       }

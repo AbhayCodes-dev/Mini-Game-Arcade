@@ -6,26 +6,20 @@ const ScoreBoard = ({ gameId }) => {
   const { scores } = useContext(GameContext);
   const [animateScore, setAnimateScore] = useState(false);
   
-  // Safely get the current game score
   const score = scores[gameId] || 0;
   
-  // Get all scores and filter out undefined/null values
   const allScores = Object.entries(scores)
     .filter(([key, value]) => value !== undefined && value !== null)
     .map(([key, value]) => value)
     .sort((a, b) => b - a);
   
-  // Find rank - if no score or no scores in list, default to last
   const rank = score > 0 ? allScores.indexOf(score) + 1 : allScores.length > 0 ? allScores.length + 1 : 1;
   
-  // Calculate high score safely
   const highScore = allScores.length > 0 ? allScores[0] : 0;
   
-  // Calculate games played safely (filter out games with no scores)
   const gamesPlayed = Object.values(scores).filter(s => s !== undefined && s !== null && s > 0).length;
 
   useEffect(() => {
-    // Trigger animation when score changes
     setAnimateScore(true);
     const timer = setTimeout(() => setAnimateScore(false), 1000);
     return () => clearTimeout(timer);

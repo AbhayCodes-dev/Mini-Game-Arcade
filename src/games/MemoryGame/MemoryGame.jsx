@@ -9,9 +9,7 @@ const MemoryGame = ({ onGameEnd }) => {
   const [gameComplete, setGameComplete] = useState(false);
 
   const initializeGame = useCallback(() => {
-    // Double the emojis to create pairs
     const doubledEmojis = [...emojis, ...emojis];
-    // Shuffle the cards
     const shuffled = doubledEmojis
       .sort(() => Math.random() - 0.5)
       .map((emoji, index) => ({ id: index, emoji, flipped: false }));
@@ -28,7 +26,6 @@ const MemoryGame = ({ onGameEnd }) => {
   }, [initializeGame]);
 
   const handleCardClick = (id) => {
-    // Don't allow flipping if already flipped or solved
     if (flipped.length >= 2 || flipped.includes(id) || solved.includes(id)) {
       return;
     }
@@ -36,14 +33,12 @@ const MemoryGame = ({ onGameEnd }) => {
     const newFlipped = [...flipped, id];
     setFlipped(newFlipped);
 
-    // Update cards to show as flipped
     setCards(prevCards =>
       prevCards.map(card =>
         card.id === id ? { ...card, flipped: true } : card
       )
     );
 
-    // Check for a match if two cards are flipped
     if (newFlipped.length === 2) {
       setMoves(prev => prev + 1);
       const [firstId, secondId] = newFlipped;
@@ -51,11 +46,9 @@ const MemoryGame = ({ onGameEnd }) => {
       const secondCard = cards.find(card => card.id === secondId);
 
       if (firstCard.emoji === secondCard.emoji) {
-        // Match found
         setSolved(prev => [...prev, firstId, secondId]);
         setFlipped([]);
 
-        // Check if game is complete
         if (solved.length + 2 === cards.length) {
           setGameComplete(true);
           const finalScore = Math.floor(10000 / moves);
@@ -64,7 +57,6 @@ const MemoryGame = ({ onGameEnd }) => {
           }
         }
       } else {
-        // No match, flip back after delay
         setTimeout(() => {
           setCards(prevCards =>
             prevCards.map(card =>

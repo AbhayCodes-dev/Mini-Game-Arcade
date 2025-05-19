@@ -13,7 +13,6 @@ const WordSearch = () => {
   const [isFirstRender, setIsFirstRender] = useState(true);
 
   const generateGrid = useCallback(() => {
-    // Initialize empty grid
     const newGrid = Array(GRID_SIZE).fill().map(() => 
       Array(GRID_SIZE).fill().map(() => ({
         letter: '',
@@ -23,18 +22,16 @@ const WordSearch = () => {
       }))
     );
 
-    // Place words
     const placedWords = [];
     
     const tryPlaceWord = (word) => {
       const directions = [
-        { dr: 0, dc: 1 },  // horizontal
-        { dr: 1, dc: 0 },   // vertical
-        { dr: 1, dc: 1 },   // diagonal down-right
-        { dr: 1, dc: -1 }   // diagonal down-left
+        { dr: 0, dc: 1 },  
+        { dr: 1, dc: 0 },   
+        { dr: 1, dc: 1 },  
+        { dr: 1, dc: -1 } 
       ];
       
-      // Try each direction in random order
       const shuffledDirections = [...directions].sort(() => Math.random() - 0.5);
       
       for (const direction of shuffledDirections) {
@@ -44,12 +41,10 @@ const WordSearch = () => {
         
         if (maxRow <= 0 || maxCol <= 0) continue;
         
-        // Try multiple random positions
         for (let attempts = 0; attempts < 10; attempts++) {
           const startRow = Math.floor(Math.random() * maxRow);
           const startCol = Math.floor(Math.random() * maxCol);
           
-          // Check if word can fit
           let canPlace = true;
           for (let i = 0; i < word.length; i++) {
             const r = startRow + i * dr;
@@ -62,7 +57,6 @@ const WordSearch = () => {
           }
           
           if (canPlace) {
-            // Place the word
             for (let i = 0; i < word.length; i++) {
               const r = startRow + i * dr;
               const c = startCol + i * dc;
@@ -86,7 +80,6 @@ const WordSearch = () => {
       return false;
     };
     
-    // Try to place each word
     for (const word of WORDS) {
       let attempts = 0;
       while (attempts < 100 && !tryPlaceWord(word)) {
@@ -94,7 +87,6 @@ const WordSearch = () => {
       }
     }
     
-    // Fill remaining cells with random letters
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     for (let row = 0; row < GRID_SIZE; row++) {
       for (let col = 0; col < GRID_SIZE; col++) {
@@ -134,10 +126,8 @@ const WordSearch = () => {
     if (!isDragging || gameComplete || grid[row][col].isFound) return;
     
     setSelectedCells(prev => {
-      // Only add if it's adjacent to the last cell
       const lastCell = prev[prev.length - 1];
       if (Math.abs(lastCell.row - row) <= 1 && Math.abs(lastCell.col - col) <= 1) {
-        // Check if we're continuing in the same direction
         if (prev.length >= 2) {
           const secondLastCell = prev[prev.length - 2];
           const currentDr = lastCell.row - secondLastCell.row;
@@ -145,13 +135,11 @@ const WordSearch = () => {
           const newDr = row - lastCell.row;
           const newDc = col - lastCell.col;
           
-          // If we're not continuing in the same direction, start a new selection from the first cell
           if (currentDr !== newDr || currentDc !== newDc) {
             return [prev[0], { row, col }];
           }
         }
         
-        // Don't add if the cell is already in the selection
         if (!prev.some(cell => cell.row === row && cell.col === col)) {
           return [...prev, { row, col }];
         }
@@ -173,7 +161,6 @@ const WordSearch = () => {
       return;
     }
     
-    // Check if selected cells form a word
     const selectedWord = selectedCells.map(cell => 
       grid[cell.row][cell.col].letter
     ).join('');
@@ -187,7 +174,6 @@ const WordSearch = () => {
     );
     
     if (foundWord && !foundWords.includes(foundWord)) {
-      // Mark cells as found
       const newGrid = [...grid];
       selectedCells.forEach(cell => {
         newGrid[cell.row][cell.col].isFound = true;
@@ -195,11 +181,9 @@ const WordSearch = () => {
       setGrid(newGrid);
       setFoundWords(prev => [...prev, foundWord]);
       
-      // Calculate score based on word length and add to total
       const wordScore = foundWord.length * 10;
       setScore(prev => prev + wordScore);
       
-      // Check if all words found
       if (foundWords.length + 1 === WORDS.length) {
         setGameComplete(true);
       }
@@ -209,7 +193,6 @@ const WordSearch = () => {
   }, [selectedCells, grid, foundWords]);
 
   useEffect(() => {
-    // Handle if mouse is released outside the grid
     const handleMouseUp = () => {
       if (isDragging) {
         setIsDragging(false);
@@ -225,7 +208,6 @@ const WordSearch = () => {
     return selectedCells.some(cell => cell.row === row && cell.col === col);
   };
 
-  // Determine if a cell is the first or last in the selection
   const getCellPosition = (row, col) => {
     if (selectedCells.length === 0) return '';
     

@@ -9,7 +9,7 @@ const Hangman = ({ onGameEnd }) => {
   );
   const [guessedLetters, setGuessedLetters] = useState([]);
   const [wrongGuesses, setWrongGuesses] = useState(0);
-  const [gameStatus, setGameStatus] = useState("playing"); // playing, won, lost
+  const [gameStatus, setGameStatus] = useState("playing"); 
 
   const displayWord = selectedWord
     .split("")
@@ -38,7 +38,7 @@ const Hangman = ({ onGameEnd }) => {
           }
         }
       } else {
-        // Check if all letters are guessed
+
         const allLettersGuessed = selectedWord.split('').every(
           letter => newGuessedLetters.includes(letter)
         );
@@ -64,7 +64,6 @@ const Hangman = ({ onGameEnd }) => {
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-  // Hangman drawing parts
   const hangmanParts = [
     <circle key="head" cx="150" cy="70" r="20" className="stroke-current fill-none stroke-2" />,
     <line key="body" x1="150" y1="90" x2="150" y2="150" className="stroke-current stroke-2" />,

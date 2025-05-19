@@ -21,7 +21,6 @@ const Snake = ({ onGameEnd }) => {
       y: Math.floor(Math.random() * GRID_SIZE)
     };
     
-    // Make sure food doesn't appear on snake
     const isOnSnake = snake.some(segment => 
       segment.x === newFood.x && segment.y === newFood.y
     );
@@ -53,7 +52,6 @@ const Snake = ({ onGameEnd }) => {
           break;
       }
 
-      // Check for collisions
       if (
         head.x < 0 || head.x >= GRID_SIZE ||
         head.y < 0 || head.y >= GRID_SIZE ||
@@ -66,7 +64,6 @@ const Snake = ({ onGameEnd }) => {
 
       const newSnake = [head, ...prevSnake];
       
-      // Check if snake ate food
       if (head.x === food.x && head.y === food.y) {
         setFood(generateFood());
         setScore(prev => prev + 1);
@@ -82,14 +79,12 @@ const Snake = ({ onGameEnd }) => {
   }, [direction, food, gameOver, generateFood, isPaused, onGameEnd, score]);
 
   useEffect(() => {
-    // Focus the game area to capture keyboard events
     if (gameAreaRef.current) {
       gameAreaRef.current.focus();
     }
     
     const handleKeyDown = (e) => {
-      e.preventDefault(); // Prevent scrolling with arrow keys
-      
+      e.preventDefault();
       switch (e.key) {
         case 'ArrowUp':
           if (direction !== 'DOWN') setDirection('UP');
@@ -130,13 +125,11 @@ const Snake = ({ onGameEnd }) => {
     setSpeed(INITIAL_SPEED);
     setIsPaused(false);
     
-    // Refocus game area
     if (gameAreaRef.current) {
       gameAreaRef.current.focus();
     }
   };
 
-  // Touch controls for mobile
   const handleTouchControls = (direction) => {
     switch (direction) {
       case 'UP':

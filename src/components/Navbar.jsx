@@ -1,5 +1,4 @@
 
-// Navbar.jsx
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -18,7 +17,6 @@ const Navbar = ({ theme, toggleTheme }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when navigating
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location]);

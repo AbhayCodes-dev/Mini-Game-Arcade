@@ -11,7 +11,6 @@ const TicTacToe = () => {
   const [animateWin, setAnimateWin] = useState(false);
 
   useEffect(() => {
-    // Check for winner after each move
     const result = calculateWinner(board);
     if (result) {
       const { winner, line } = result;
@@ -32,7 +31,6 @@ const TicTacToe = () => {
         }));
       }
       
-      // Add to game history
       setGameHistory(prev => [
         ...prev, 
         { 
@@ -42,7 +40,6 @@ const TicTacToe = () => {
         }
       ]);
     } else if (!board.includes(null)) {
-      // It's a draw
       setWinner('draw');
       setIsGameOver(true);
       setScore(prevScore => ({
@@ -50,7 +47,6 @@ const TicTacToe = () => {
         draws: prevScore.draws + 1
       }));
       
-      // Add to game history
       setGameHistory(prev => [
         ...prev, 
         { 
@@ -64,9 +60,9 @@ const TicTacToe = () => {
 
   const calculateWinner = (squares) => {
     const lines = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-      [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-      [0, 4, 8], [2, 4, 6] // diagonals
+      [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+      [0, 3, 6], [1, 4, 7], [2, 5, 8], 
+      [0, 4, 8], [2, 4, 6] 
     ];
     
     for (let i = 0; i < lines.length; i++) {

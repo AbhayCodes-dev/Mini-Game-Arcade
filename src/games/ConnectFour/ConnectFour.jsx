@@ -1,4 +1,3 @@
-// ConnectFour.jsx
 import { useState } from 'react';
 
 const ROWS = 6;
@@ -20,7 +19,6 @@ const ConnectFour = ({ onGameEnd }) => {
   const dropPiece = (col) => {
     if (winner) return;
     
-    // Find the first empty row in the column
     for (let row = ROWS - 1; row >= 0; row--) {
       if (!board[row][col]) {
         const newBoard = [...board];
@@ -53,16 +51,15 @@ const ConnectFour = ({ onGameEnd }) => {
 
   const checkWin = (row, col) => {
     const directions = [
-      [0, 1],   // horizontal
-      [1, 0],    // vertical
-      [1, 1],    // diagonal down-right
-      [1, -1]    // diagonal down-left
+      [0, 1],   
+      [1, 0],    
+      [1, 1],    
+      [1, -1]   
     ];
     
     for (const [dr, dc] of directions) {
       let count = 1;
       
-      // Check in positive direction
       for (let i = 1; i < WIN_LENGTH; i++) {
         const r = row + i * dr;
         const c = col + i * dc;
@@ -70,7 +67,6 @@ const ConnectFour = ({ onGameEnd }) => {
         count++;
       }
       
-      // Check in negative direction
       for (let i = 1; i < WIN_LENGTH; i++) {
         const r = row - i * dr;
         const c = col - i * dc;

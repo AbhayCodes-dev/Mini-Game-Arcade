@@ -5,7 +5,7 @@ const MINE_COUNT = 15;
 
 const Minesweeper = ({ onGameEnd }) => {
   const [board, setBoard] = useState([]);
-  const [gameStatus, setGameStatus] = useState('playing'); // playing, won, lost
+  const [gameStatus, setGameStatus] = useState('playing');
   const [flags, setFlags] = useState(MINE_COUNT);
   const [revealedCount, setRevealedCount] = useState(0);
   const [firstClick, setFirstClick] = useState(true);
@@ -16,7 +16,6 @@ const Minesweeper = ({ onGameEnd }) => {
     bestTime: null
   });
 
-  // Create initial board with empty cells
   const initializeBoard = useCallback(() => {
     return Array(BOARD_SIZE).fill().map(() => 
       Array(BOARD_SIZE).fill().map(() => ({
@@ -28,7 +27,6 @@ const Minesweeper = ({ onGameEnd }) => {
     );
   }, []);
 
-  // Place mines on the board, avoiding the first clicked cell
   const placeMines = useCallback((board, firstRow, firstCol) => {
     let minesPlaced = 0;
     const newBoard = JSON.parse(JSON.stringify(board));
@@ -37,14 +35,12 @@ const Minesweeper = ({ onGameEnd }) => {
       const row = Math.floor(Math.random() * BOARD_SIZE);
       const col = Math.floor(Math.random() * BOARD_SIZE);
       
-      // Don't place mine on first click or where mines already exist
       if ((row !== firstRow || col !== firstCol) && !newBoard[row][col].isMine) {
         newBoard[row][col].isMine = true;
         minesPlaced++;
       }
     }
     
-    // Calculate adjacent mines for each cell
     for (let row = 0; row < BOARD_SIZE; row++) {
       for (let col = 0; col < BOARD_SIZE; col++) {
         if (!newBoard[row][col].isMine) {
@@ -62,7 +58,6 @@ const Minesweeper = ({ onGameEnd }) => {
     return newBoard;
   }, []);
 
-  // Reset the game to initial state
   const resetGame = useCallback(() => {
     setBoard(initializeBoard());
     setGameStatus('playing');
@@ -72,12 +67,10 @@ const Minesweeper = ({ onGameEnd }) => {
     setGameTime(0);
   }, [initializeBoard]);
 
-  // Initialize the game when component mounts
   useEffect(() => {
     resetGame();
   }, [resetGame]);
 
-  // Track game time
   useEffect(() => {
     let timer;
     if (gameStatus === 'playing' && !firstClick) {
@@ -88,24 +81,20 @@ const Minesweeper = ({ onGameEnd }) => {
     return () => clearInterval(timer);
   }, [gameStatus, firstClick]);
 
-  // Reveal a cell and handle game logic
   const revealCell = (row, col) => {
     if (gameStatus !== 'playing' || board[row][col].revealed || board[row][col].flagged) return;
     
-    // Place mines after first click to ensure first click is safe
     if (firstClick) {
       const newBoard = placeMines(board, row, col);
       setBoard(newBoard);
       setFirstClick(false);
-      revealCell(row, col); // Recursively call with new board
+      revealCell(row, col);
       return;
     }
     
     const newBoard = JSON.parse(JSON.stringify(board));
     
-    // If clicked on mine, game over
     if (newBoard[row][col].isMine) {
-      // Reveal all mines
       for (let r = 0; r < BOARD_SIZE; r++) {
         for (let c = 0; c < BOARD_SIZE; c++) {
           if (newBoard[r][c].isMine) newBoard[r][c].revealed = true;
@@ -118,14 +107,12 @@ const Minesweeper = ({ onGameEnd }) => {
         played: prev.played + 1
       }));
       
-      // Only call onGameEnd if it exists
       if (typeof onGameEnd === 'function') {
         onGameEnd(revealedCount);
       }
       return;
     }
     
-    // Function to reveal cells recursively for empty cells
     const revealAdjacent = (r, c) => {
       if (r < 0 || r >= BOARD_SIZE || c < 0 || c >= BOARD_SIZE || 
           newBoard[r][c].revealed || newBoard[r][c].flagged) return;
@@ -133,7 +120,6 @@ const Minesweeper = ({ onGameEnd }) => {
       newBoard[r][c].revealed = true;
       
       if (newBoard[r][c].adjacentMines === 0) {
-        // Reveal all adjacent cells if this is an empty cell
         for (let i = Math.max(0, r - 1); i <= Math.min(BOARD_SIZE - 1, r + 1); i++) {
           for (let j = Math.max(0, c - 1); j <= Math.min(BOARD_SIZE - 1, c + 1); j++) {
             if (i !== r || j !== c) revealAdjacent(i, j);
@@ -144,7 +130,6 @@ const Minesweeper = ({ onGameEnd }) => {
     
     revealAdjacent(row, col);
     
-    // Count revealed cells
     let revealed = 0;
     for (let r = 0; r < BOARD_SIZE; r++) {
       for (let c = 0; c < BOARD_SIZE; c++) {
@@ -155,12 +140,10 @@ const Minesweeper = ({ onGameEnd }) => {
     setBoard(newBoard);
     setRevealedCount(revealed);
     
-    // Check if player has won
     const totalSafeCells = BOARD_SIZE * BOARD_SIZE - MINE_COUNT;
     if (revealed >= totalSafeCells) {
       setGameStatus('won');
       
-      // Update stats
       setGameStats(prev => {
         const newStats = {
           played: prev.played + 1,
@@ -170,7 +153,6 @@ const Minesweeper = ({ onGameEnd }) => {
         return newStats;
       });
       
-      // Only call onGameEnd if it exists
       if (typeof onGameEnd === 'function') {
         const score = MINE_COUNT * 10 + revealed;
         onGameEnd(score);
@@ -178,7 +160,6 @@ const Minesweeper = ({ onGameEnd }) => {
     }
   };
 
-  // Toggle flag on a cell
   const toggleFlag = (e, row, col) => {
     e.preventDefault();
     if (gameStatus !== 'playing' || board[row][col].revealed) return;
@@ -194,23 +175,21 @@ const Minesweeper = ({ onGameEnd }) => {
     setBoard(newBoard);
   };
 
-  // Get color for cell numbers
   const getCellColor = (adjacentMines) => {
     const colors = [
-      'text-transparent', // 0
-      'text-blue-400',    // 1
-      'text-green-400',   // 2
-      'text-red-400',     // 3
-      'text-purple-400',  // 4
-      'text-yellow-400',  // 5
-      'text-teal-400',    // 6
-      'text-pink-400',    // 7
-      'text-gray-400'     // 8
+      'text-transparent', 
+      'text-blue-400',    
+      'text-green-400',   
+      'text-red-400',     
+      'text-purple-400', 
+      'text-yellow-400',  
+      'text-teal-400',    
+      'text-pink-400',    
+      'text-gray-400'     
     ];
     return colors[adjacentMines];
   };
 
-  // Format time as mm:ss
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -289,7 +268,6 @@ const Minesweeper = ({ onGameEnd }) => {
         {gameStatus !== 'playing' && (
           <button
             onClick={() => {
-              // Auto-flag all mines for visual demonstration if game is over
               if (gameStatus === 'lost') {
                 const newBoard = JSON.parse(JSON.stringify(board));
                 for (let r = 0; r < BOARD_SIZE; r++) {

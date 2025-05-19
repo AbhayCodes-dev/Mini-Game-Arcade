@@ -19,10 +19,8 @@ const RockPaperScissors = ({ onGameEnd }) => {
   const [showAnimation, setShowAnimation] = useState(false);
 
   const playGame = (choice) => {
-    // Reset animation state
     setShowAnimation(false);
     
-    // Show countdown animation
     setShowAnimation(true);
     
     setTimeout(() => {
@@ -55,7 +53,6 @@ const RockPaperScissors = ({ onGameEnd }) => {
 
   useEffect(() => {
     if (gameCount > 0 && gameCount % 5 === 0) {
-      // Only call onGameEnd if it exists (to prevent errors)
       if (typeof onGameEnd === 'function') {
         onGameEnd(score.player);
       }

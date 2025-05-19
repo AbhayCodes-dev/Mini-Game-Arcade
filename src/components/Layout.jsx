@@ -1,5 +1,3 @@
-
-// Layout.jsx
 import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import { motion, AnimatePresence } from 'framer-motion';

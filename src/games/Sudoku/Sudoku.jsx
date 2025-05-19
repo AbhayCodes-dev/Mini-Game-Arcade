@@ -10,9 +10,7 @@ const Sudoku = ({ onGameEnd }) => {
   const [notes, setNotes] = useState(Array(9).fill().map(() => Array(9).fill().map(() => [])));
   const [isNotesMode, setIsNotesMode] = useState(false);
 
-  // Generate a new Sudoku board
   const generateBoard = (diff = difficulty) => {
-    // Sample boards with different difficulties
     const boards = {
       easy: [
         [5, 3, 0, 0, 7, 0, 0, 0, 0],
@@ -77,28 +75,25 @@ const Sudoku = ({ onGameEnd }) => {
     const { row, col } = selectedCell;
     
     if (isNotesMode) {
-      // Handle notes mode
       setNotes(prevNotes => {
         const newNotes = [...prevNotes];
         const cellNotes = [...newNotes[row][col]];
         
         const index = cellNotes.indexOf(num);
         if (index > -1) {
-          cellNotes.splice(index, 1); // Remove note if already exists
+          cellNotes.splice(index, 1);
         } else {
-          cellNotes.push(num); // Add note
+          cellNotes.push(num);
         }
         
         newNotes[row][col] = cellNotes.sort((a, b) => a - b);
         return newNotes;
       });
     } else {
-      // Regular input mode
       const newBoard = [...board];
-      newBoard[row][col] = num === newBoard[row][col] ? 0 : num; // Toggle number if already set
+      newBoard[row][col] = num === newBoard[row][col] ? 0 : num;
       setBoard(newBoard);
 
-      // Clear notes for this cell when setting a value
       if (num !== 0) {
         const newNotes = [...notes];
         newNotes[row][col] = [];
@@ -113,13 +108,11 @@ const Sudoku = ({ onGameEnd }) => {
     if (!selectedCell) return;
     const { row, col } = selectedCell;
     
-    // Only allow clearing cells that weren't initially filled
     if (initialBoard[row][col] === 0) {
       const newBoard = [...board];
       newBoard[row][col] = 0;
       setBoard(newBoard);
       
-      // Also clear notes
       const newNotes = [...notes];
       newNotes[row][col] = [];
       setNotes(newNotes);
@@ -133,7 +126,6 @@ const Sudoku = ({ onGameEnd }) => {
   };
 
   const checkCompletion = (currentBoard) => {
-    // Check if board is filled
     let filled = true;
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
@@ -146,10 +138,8 @@ const Sudoku = ({ onGameEnd }) => {
     }
     
     if (filled) {
-      // Simple validation - this is not a full solver but checks basic rules
       let valid = true;
       
-      // Check rows
       for (let i = 0; i < 9; i++) {
         const row = new Set();
         for (let j = 0; j < 9; j++) {
@@ -162,7 +152,6 @@ const Sudoku = ({ onGameEnd }) => {
         if (!valid) break;
       }
       
-      // Check columns
       if (valid) {
         for (let j = 0; j < 9; j++) {
           const col = new Set();
@@ -177,7 +166,6 @@ const Sudoku = ({ onGameEnd }) => {
         }
       }
       
-      // Check 3x3 boxes
       if (valid) {
         for (let boxRow = 0; boxRow < 3; boxRow++) {
           for (let boxCol = 0; boxCol < 3; boxCol++) {
@@ -202,7 +190,6 @@ const Sudoku = ({ onGameEnd }) => {
       
       if (valid) {
         setIsComplete(true);
-        // Score calculation based on difficulty and time
         const difficultyMultiplier = {
           easy: 1,
           medium: 1.5,
@@ -217,24 +204,19 @@ const Sudoku = ({ onGameEnd }) => {
   const getCellClass = (row, col) => {
     let classes = 'w-10 h-10 border flex items-center justify-center text-xl transition-colors';
     
-    // Cell is part of the initial board
     if (initialBoard[row][col] !== 0) {
       classes += ' bg-gray-700 text-white font-bold';
     } 
-    // Cell is selected
     else if (selectedCell?.row === row && selectedCell?.col === col) {
       classes += ' bg-blue-800 text-white cursor-pointer';
     } 
-    // Cell has user-entered value
     else if (board[row][col] !== 0) {
       classes += ' bg-gray-800 text-blue-300 cursor-pointer';
     } 
-    // Empty cell
     else {
       classes += ' bg-gray-800 hover:bg-gray-700 cursor-pointer';
     }
     
-    // Add thicker borders for 3x3 blocks
     if (row % 3 === 0) classes += ' border-t-2 border-t-purple-500';
     if (col % 3 === 0) classes += ' border-l-2 border-l-purple-500';
     if (row === 8) classes += ' border-b-2 border-b-purple-500';
