@@ -1,12 +1,38 @@
-# React + Vite
+# Mini-Game Arcade 🎮
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A collection of 10 classic mini-games built with React and Tailwind CSS. Perfect for casual gaming!
 
-Currently, two official plugins are available:
+## Features ✨
+- 10 fully functional games  
+- Score tracking with localStorage  
+- Responsive design  
+- Clean UI with Tailwind CSS  
+- Game instructions included  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Games Included 🕹️
+1. Tic-Tac-Toe  
+2. Snake  
+3. Memory Game  
+4. Hangman  
+5. Sudoku  
+6. Minesweeper  
+7. Word Search  
+8. Quiz Game  
+9. Connect Four  
+10. Rock Paper Scissors  
 
-## Expanding the ESLint configuration
+## Installation 💻
+```bash
+git clone https://github.com/yourusername/reactplay.git
+npm install
+npm run dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Authors
+
+- [Abhay](https://github.com/AbhayCodes-dev)
+
+
+## Contributing
+
+Contributions are welcome! Submit a pull request or report an issue.
