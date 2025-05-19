@@ -24,7 +24,7 @@ A collection of 10 classic mini-games built with React and Tailwind CSS. Perfect
 - Clone the Repository:
 
 ```bash
-git clone https://github.com/AbhayCodes-dev/Social-Media-Website-Using-MERN-Stack.git
+git clone https://github.com/AbhayCodes-dev/Mini-Game-Arcade.git
 ```
 
 - Run :
