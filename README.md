@@ -21,12 +21,16 @@ A collection of 10 classic mini-games built with React and Tailwind CSS. Perfect
 9. Connect Four  
 10. Rock Paper Scissors  
 
-## Installation 💻
-```bash
-git clone https://github.com/yourusername/reactplay.git
-npm install
-npm run dev
+- Clone the Repository:
 
+```bash
+git clone https://github.com/AbhayCodes-dev/Social-Media-Website-Using-MERN-Stack.git
+```
+
+- Run :
+```bash
+ npm run dev
+```
 
 ## Authors
 
@@ -36,3 +40,5 @@ npm run dev
 ## Contributing
 
 Contributions are welcome! Submit a pull request or report an issue.
+
+
